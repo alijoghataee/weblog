@@ -29,24 +29,28 @@
         {% endif %}
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link" href="{% url 'blog_create' %}">Add blog</a>
-                <a class="nav-link" href="#">contact us</a>
+                <a class="nav-link" href="{% url 'blog_list' %}">وبلاگ</a>
+                <a class="nav-link" href="{% url 'blog_create' %}">افزودن بلاگ</a>
+                <a class="nav-link" href="{% url 'categories' %}">دسته بندی ها</a>
+                <a class="nav-link" href="{% url 'who_i_am' %}">من کی ام؟</a>
                 <form action="{% url 'search' %}" method="get">
                     <input name="q" type="text" placeholder="Search...">
                 </form>
             </div>
         </div>
         <div class="mx-2 text-white">
-            {#            {% if user.is_authenticated %}#}
-            {#                welcome {{ user.username }} --- <a class= 'text-light' href="{% url 'logout' %}">log out</a>#}
-            {#            {% else %}#}
-            {#                <a class='text-light' href="{% url "login" %}">log in</a>/<a class='text-light' href="{% url "signup" %}">sign up</a>#}
-            {#            {% endif %}#}
+
         </div>
         </div>
 </nav>
 
-
+{% if messages %}
+    <div>
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    </div>
+{% endif %}
 
 
 {% block content %}

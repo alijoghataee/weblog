@@ -31,9 +31,10 @@ class BlogDetailView(generic.DetailView):
         return context
 
 
-class CommentCreatView(LoginRequiredMixin, generic.CreateView):
+class CommentCreatView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
     model = Comment
     form_class = CommentForm
+    success_message = "نظر شما با موفقیت ثبت شد و پس از تایید نمایش داده می شود"
 
     def form_valid(self, form):
         obj = form.save(commit=False)
@@ -43,6 +44,11 @@ class CommentCreatView(LoginRequiredMixin, generic.CreateView):
         obj.blog = blog
 
         return super().form_valid(form)
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % dict(
+            cleaned_data,
+        )
 
 
 # def blog_detail_view(request, pk):
@@ -108,8 +114,8 @@ class Search(generic.ListView):
         blog = Blog.objects.filter(active=True)
         search = self.request.GET["q"]
         search_result = blog.filter(
-            Q(title__contains=search) |
-            Q(description__contains=search))
+            Q(title__icontains=search) |
+            Q(description__icontains=search))
 
         return search_result
 

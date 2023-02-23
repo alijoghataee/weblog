@@ -14,12 +14,12 @@ class Categories(models.Model):
 
 
 class Blog(models.Model):
-    title = models.CharField(max_length=100)
-    cover = models.ImageField(upload_to='blog_cover/')
-    description = models.CharField(max_length=200)
-    text = models.TextField()
+    title = models.CharField(max_length=100, verbose_name="عنوان")
+    cover = models.ImageField(upload_to='blog_cover/', verbose_name="تصویر")
+    description = models.CharField(max_length=200, verbose_name="توضیحات")
+    text = models.TextField(verbose_name="متن مقاله")
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    category = models.ManyToManyField(Categories)
+    category = models.ManyToManyField(Categories, verbose_name="دسته بندی")
     active = models.BooleanField(default=False)
 
     date_create = models.DateField(auto_now_add=True)
@@ -34,7 +34,7 @@ class Blog(models.Model):
 
 class Comment(models.Model):
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    text = models.TextField()
+    text = models.TextField(verbose_name="متن نظر")
     active = models.BooleanField(default=False)
     recommend = models.BooleanField("این مقاله را توصیه میکنم", default=True)
     blog = models.ForeignKey(Blog, related_name='comment', on_delete=models.CASCADE)
